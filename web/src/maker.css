@@ -13,7 +13,7 @@ nav a span { margin-left: auto; font-size: 11px; color: var(--muted); }
 .offline-toggle { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); padding: 7px 5px 14px; cursor: pointer; }
 .offline-toggle input { width: 15px; height: 15px; accent-color: var(--copper); } .connection-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--copper); }
 .theme-switch { display: flex; gap: 3px; padding: 3px; border-radius: 6px; background: var(--paper); }
-.theme-switch button { flex: 1; padding: 6px; background: none; border: 1px solid transparent; border-radius: 4px; color: var(--muted); font-size: 12px; cursor: pointer; }
+.theme-switch button { flex: 1; padding: 6px; background: none; border: 1px solid transparent; border-radius: 4px; color: var(--muted); font-size: 12px; white-space: nowrap; cursor: pointer; }
 .theme-switch [aria-pressed="true"] { background: var(--surface); border-color: var(--line); color: var(--ink); }
 main { margin-left: 215px; padding: 24px 28px 0; max-width: 1735px; }
 .intro { margin-bottom: 18px; } .intro-row { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
