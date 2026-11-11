@@ -3,7 +3,7 @@
   {"name": "blue_whale", "label": "蓝鲸", "cells": "⠇⠧⠂⠛⠡⠁", "why": "太深", "real": "身长约 25 米", "glb": "objects/blue_whale/model.glb", "yaw": -0.002},
   {"name": "trex", "label": "霸王龙", "cells": "⠃⠔⠶⠂⠇⠲⠂", "why": "已经灭绝", "real": "身长约 12 米", "glb": "objects/trex/model.glb", "yaw": -0.871},
   {"name": "shark", "label": "大白鲨", "cells": "⠙⠔⠃⠪⠂⠱⠔⠁", "why": "太危险", "real": "身长约 4.5 米", "glb": "objects/shark/model.glb", "yaw": 0.002},
-  {"name": "ant", "label": "蚂蚁", "cells": "⠍⠔⠄⠊⠄", "why": "太小", "real": "身长不到 1 厘米", "glb": "objects/ant/model.glb", "yaw": -1.563},
+  {"name": "ant", "label": "蚂蚁", "cells": "⠍⠔⠄⠊⠄", "why": "太小", "real": "身长不到 1 厘米", "glb": "objects/ant/model.glb", "yaw": -0.003},
   {"name": "saturn", "label": "土星", "cells": "⠞⠥⠄⠓⠡⠁", "why": "太远", "real": "光环宽约 27 万公里", "glb": "objects/saturn/model.glb", "yaw": 0.63},
   {"name": "volcano", "label": "火山", "cells": "⠓⠕⠄⠱⠧⠁", "why": "太烫", "real": "高几千米", "glb": "objects/volcano/model.glb", "yaw": 0.0},
   {"name": "yongzhong", "label": "甬钟", "cells": "⠹⠄⠌⠲⠁", "why": "隔着展柜", "real": "高约 45 厘米", "glb": "objects/yongzhong/model.glb", "yaw": 0.0}
