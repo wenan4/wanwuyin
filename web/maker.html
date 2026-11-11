@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#f6f6f4" />
+  <meta name="description" content="说一个名字，或带来一张照片，把摸不到的世界铸成一枚盲文印章。" />
+  <title>万物印 · 造印机</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/src/maker.css" />
+</head>
+<body>
+  <a class="skip-link" href="#maker-form">跳到造印表单</a>
+  <aside class="site-header" aria-label="侧边导航">
+    <a class="brand" href="maker.html" aria-label="万物印造印机首页"><span class="brand-seal" aria-hidden="true">印</span><span>万物印<small>把世界放进手里</small></span></a>
+    <nav aria-label="主导航">
+      <a href="#workbench" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 6 6 6-6 6m9 0h7" /></svg>造印工作台</a>
+      <a href="#collection"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 9 5-9 5-9-5 9-5Zm-9 9 9 5 9-5M3 16l9 5 9-5" /></svg>我的印集 <span id="collection-count">0</span></a>
+      <a href="seal.html?view=set"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>全部印章</a>
+      <a href="#offline-options"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m-4-4 4 4 4-4M4 15v6h16v-6"/></svg>离线体验</a>
+    </nav>
+    <div class="sidebar-bottom"><label class="offline-toggle"><input id="offline-toggle" type="checkbox" /><span class="connection-dot" aria-hidden="true"></span>仅使用已备好的印</label><div class="theme-switch" role="group" aria-label="页面主题"><button id="theme-light" type="button" aria-pressed="true">☼ 浅色</button><button id="theme-dark" type="button" aria-pressed="false">☾ 深色</button></div></div>
+  </aside>
+  <main>
+    <section class="intro" aria-labelledby="page-title">
+      <div class="intro-row"><div><h1 id="page-title">造印工作台</h1><p>说一个名字，或上传一张照片。认形状、读盲文，拓出属于自己的一页书。</p></div><span class="workspace-tag">想象 · 触摸 · 成书</span></div>
+    </section>
+    <div class="mode-cards" role="group" aria-label="选择造印方式"><button id="mode-text" class="mode-card" type="button" aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14v11H9l-4 4V5Zm4 4h6m-6 3h4"/></svg><span><strong>文字造印</strong><small>用一句话，描述想摸的东西</small></span></button><button id="mode-photo" class="mode-card" type="button" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m4 16 5-5 5 5 3-3 4 4"/><circle cx="16" cy="9" r="1"/></svg><span><strong>照片造印</strong><small>从玩具、插图或珍藏开始</small></span></button><button id="mode-offline" class="mode-card" type="button" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m-4-4 4 4 4-4M4 15v6h16v-6"/></svg><span><strong>离线体验</strong><small>备好三枚印，断网也能继续</small></span></button></div>
+    <section class="flow-card" aria-label="造印步骤"><ol class="flow-strip"><li data-flow="0" aria-current="step"><span>1</span><strong>说出想象</strong><small>名字、描述或一张照片</small></li><li data-flow="1"><span>2</span><strong>铸造印章</strong><small>物件形状 + 盲文印面</small></li><li data-flow="2"><span>3</span><strong>翻面读名字</strong><small>先认形状，再找答案</small></li><li data-flow="3"><span>4</span><strong>拓出一页书</strong><small>一枚一枚，放进自己的印集</small></li></ol><p>在线铸造通常需要 1–4 分钟。已备好的印可以立刻体验；离线模式不会发起在线生成。</p></section>
+    <section id="workbench" class="workbench" aria-label="造印工作台">
+      <div class="form-panel">
+        <div class="panel-label"><span>01 / 想摸什么</span><span class="tiny-stamp" aria-hidden="true">万物</span></div>
+        <form id="maker-form">
+          <fieldset id="input-fields">
+            <legend class="sr-only">描述想做成印章的物件</legend>
+            <div class="input-tabs" role="tablist" aria-label="输入方式">
+              <button id="text-tab" type="button" role="tab" aria-selected="true" aria-controls="text-panel" tabindex="0">说一个名字</button>
+              <button id="photo-tab" type="button" role="tab" aria-selected="false" aria-controls="photo-panel" tabindex="-1">带一张照片</button>
+            </div>
+            <div id="text-panel" role="tabpanel" aria-labelledby="text-tab">
+              <label class="field-label" for="prompt">你想摸摸什么？</label>
+              <textarea id="prompt" rows="2" maxlength="2000" placeholder="我想摸摸长颈鹿……" aria-describedby="prompt-help"></textarea>
+              <p id="prompt-help" class="field-help">一个物件，一点想象。细节也可以说给它听。</p>
+            </div>
+            <div id="photo-panel" role="tabpanel" aria-labelledby="photo-tab" hidden>
+              <label class="photo-drop" for="photo"><span aria-hidden="true">＋</span><strong>选一张照片，或拍一张</strong><small>清楚的单个物件 · PNG / JPEG / WebP · 8 MB 以内</small><img id="photo-preview" alt="已选照片预览" hidden /></label>
+              <input id="photo" type="file" accept="image/png,image/jpeg,image/webp" aria-describedby="photo-help" />
+              <p id="photo-help" class="field-help">玩具、插图、博物馆里的珍藏，都可以。</p>
+            </div>
+            <div class="name-field"><label class="field-label" for="seal-name">印上的名字</label><input id="seal-name" maxlength="40" placeholder="例如：长颈鹿" required /></div>
+            <details class="detail-fields"><summary>再写一点它的故事 <span>可选</span></summary><label for="why">为什么摸不到它？</label><select id="why"><option>暂时摸不到</option><option>太大</option><option>太远</option><option>太深</option><option>太危险</option><option>已消失</option><option>太珍贵</option><option>太小</option><option>太高</option><option>太烫</option></select><label for="real-size">它在真实世界有多大？</label><input id="real-size" maxlength="100" placeholder="例如：高约五米（不知道也没关系）" /></details>
+            <button id="submit-seal" class="button primary" type="submit"><span>铸成我的印</span><span aria-hidden="true">↗</span></button>
+            <p id="submit-hint" class="submit-hint">新的印，通常需要 1–4 分钟。已备好的，可以立刻摸一摸。</p>
+          </fieldset>
+        </form>
+        <div class="quick-picks"><p>也可以，从这三样开始</p><div id="quick-picks" class="chip-row"></div></div>
+        <div id="task-status" class="task-status" hidden><div class="status-top"><span id="status-title">正在铸造</span><span id="elapsed" aria-hidden="true"></span></div><p id="status-detail"></p><div id="busy-track" class="busy-track" aria-hidden="true"><span></span></div></div>
+        <div id="message" class="message" role="alert" hidden></div>
+        <button id="retry-request" class="text-button" type="button" hidden>继续查询这枚印</button>
+        <p id="live-status" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
+      </div>
+      <div class="stage-panel">
+        <div class="stage-topline"><span id="result-kind">一枚印，一个摸得到的答案</span><span id="source-badge" class="source-badge">已备好的印</span></div>
+        <div id="seal-stage" class="seal-stage" aria-label="印章三维展示"><div class="stage-watermark" aria-hidden="true">印</div></div>
+        <div class="stage-caption"><span class="caption-line" aria-hidden="true"></span><p id="stage-caption">先用手认一认，猜猜它是什么。</p><span class="caption-line" aria-hidden="true"></span></div>
+        <div class="view-tools" role="group" aria-label="三维视角控制"><button id="turn-left" type="button" aria-label="向左旋转印章">↶</button><button id="turn-right" type="button" aria-label="向右旋转印章">↷</button><span aria-hidden="true"></span><button id="zoom-in" type="button" aria-label="放大印章">＋</button><button id="zoom-out" type="button" aria-label="缩小印章">−</button><small>拖动旋转 · 也可用左侧按钮</small></div>
+        <div class="stamp-actions" role="group" aria-label="认识这枚印"><button id="touch" class="step-button is-current" type="button"><span>01</span>认形状</button><button id="flip" class="step-button" type="button"><span>02</span>翻面读名字</button><button id="rub" class="step-button" type="button" disabled><span>03</span>拓出一页书</button></div>
+        <div id="seal-result" class="seal-result"><div><span class="result-eyebrow">这枚印的故事</span><h2 id="result-label">大象</h2><p id="result-story">太大 · 身长约六米</p><span id="result-braille" class="braille-label" aria-label="大象的盲文"></span></div><button id="collect" class="button outline" type="button">＋ 放进我的印集</button></div>
+      </div>
+    </section>
+    <section id="collection" class="collection-section" aria-labelledby="collection-heading"><div class="section-heading"><div><p class="eyebrow">一枚一枚，攒成自己的书</p><h2 id="collection-heading">我的印集</h2></div><a id="collection-link" class="text-link" href="seal.html?view=set&collection=1">看整套合影 <span aria-hidden="true">↗</span></a></div><p id="collection-empty" class="collection-empty">在上面的印章旁点“放进我的印集”，就能留下它。下次回来，这一页还在。</p><div id="collection-grid" class="collection-grid"></div></section>
+    <section id="offline-options" class="offline-card" aria-labelledby="offline-heading"><div class="offline-emblem" aria-hidden="true">↓</div><div><p class="eyebrow">离线内容包</p><h2 id="offline-heading">没有网络，也能继续好奇。</h2><p>备好大象、蓝鲸和甬钟。下次断网，仍可以认形状、翻面、拓出自己的一页书。</p><p id="offline-status" class="offline-status" role="status" aria-live="polite">首次准备需要联网下载三枚模型。</p></div><button id="prepare-offline" class="button outline" type="button">准备离线体验 <span aria-hidden="true">↓</span></button></section>
+  </main>
+  <footer><span class="footer-mark">万物印</span><p>把摸不到的世界，放进孩子手里。</p><a href="seal.html?view=set">看看已备好的世界 ↗</a></footer>
+  <script type="module" src="/src/maker.ts"></script>
+</body>
+</html>

@@ -28,6 +28,7 @@ npx vite --port 5199
 
 | 地址 | 内容 |
 |---|---|
+| http://localhost:5199/maker.html | 造印工作台：文字 / 照片、翻面拓印、收藏、离线体验 |
 | http://localhost:5199/seal.html?seal=elephant | 三联图：印钮 / 印面 / 拓出来的一页（可拖动视角） |
 | http://localhost:5199/seal.html?view=set | 整套合影 |
 | http://localhost:5199/seal.html?view=anim&seal=elephant | 12 秒动画：摸 → 翻面 → 拓印 → 成页 |
@@ -87,7 +88,7 @@ tar -xzf /tmp/wanwuyin-snap/pipeline-out-rest.tar.gz -C pipeline   # 其余：�
 
 `cd pipeline` 后运行 `.venv/bin/python scripts/serve_seals.py --port 8000`（Windows 用 `.venv\Scripts\python.exe`）。提供 `POST /api/seals` 和 `GET /api/seals/<id>`，支持文字/照片生成、最多 5 个任务、持久队列与预算、重启恢复；Vite 已代理 `/api`。新印写入独立的 `generated.json`。
 
-接口、前端对接、单命令生成、Windows 盲文工具和恢复说明见 [docs/造印机后端.md](docs/造印机后端.md)。自动测试：`python -m unittest discover -s pipeline/tests -v`。造印机页面由前端任务 YOU-198 接入。
+接口、单命令生成、Windows 盲文工具和恢复说明见 [docs/造印机后端.md](docs/造印机后端.md)。页面、缓存与断网准备见 [docs/造印机使用.md](docs/造印机使用.md)。后端测试：`python -m unittest discover -s pipeline/tests -v`；前端测试在 `web/` 下执行 `npm run test:maker`，浏览器回归用 `npm run check:maker`。本轮先完成开发，不录视频。
 
 ### 加一枚印、换一个模型
 

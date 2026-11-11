@@ -1,0 +1,10 @@
+[
+  {"name":"elephant","aliases":["大象","非洲象","象","elephant"],"offline":true},
+  {"name":"blue_whale","aliases":["蓝鲸","鲸鱼","blue whale"],"offline":true},
+  {"name":"yongzhong","aliases":["甬钟","编钟","青铜钟"],"offline":true},
+  {"name":"trex","aliases":["霸王龙","恐龙","暴龙","trex","t-rex"]},
+  {"name":"shark","aliases":["大白鲨","白鲨","鲨鱼","shark"]},
+  {"name":"ant","aliases":["蚂蚁","ant"]},
+  {"name":"saturn","aliases":["土星","saturn"]},
+  {"name":"volcano","aliases":["火山","volcano"]}
+]

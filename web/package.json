@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test:maker": "node --test tools/test-maker.mjs",
+    "check:maker": "node tools/check-maker.mjs"
   },
   "dependencies": {
     "three": "^0.187.0"
