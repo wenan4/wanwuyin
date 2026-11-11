@@ -38,6 +38,9 @@ const sun = new THREE.DirectionalLight(0xfff2e0, 1.7);
 sun.castShadow = true;
 sun.shadow.radius = 6;
 scene.add(sun, sun.target);
+const sideLight = new THREE.DirectionalLight(0xffead5, 0.78);
+sideLight.position.set(-9, 3, 2);
+scene.add(sideLight);
 function shadowArea(r: number, map: number) {
   sun.shadow.mapSize.set(map, map);
   Object.assign(sun.shadow.camera, { left: -r, right: r, top: r, bottom: -r, far: 4 * r + 40 });
@@ -102,7 +105,7 @@ if (view === "set") {
   ui.innerHTML = `<div class="head"><b>万物印</b><span>摸不到的世界，一枚一枚握在手里</span></div>`;
   const back = document.createElement("a"); back.href = "maker.html"; back.textContent = "← 回到造印机";
   Object.assign(back.style, { position: "fixed", top: "16px", left: "20px", color: "#315247", pointerEvents: "auto", fontSize: "13px" });
-  ui.append(back);
+  if (!capture) ui.append(back);
   built.forEach(({ s, sl }, i) => {
     const row = Math.floor(i / cols), n = row === 0 ? cols : built.length - cols;
     const x = ((i % cols) - (n - 1) / 2) * dx, z = (row - 0.5) * dz;
@@ -145,7 +148,8 @@ if (view === "set") {
     rest(flipped);
     const pg = page(s);
     pg.position.set(8.4, 0, 1.5);
-    pg.rotation.y = -0.3;
+    pg.rotation.set(0.46, -0.24, 0, "YXZ");
+    rest(pg);
     scene.add(upright, flipped, pg);
     tracked.push(["upright", upright], ["flipped", flipped], ["page", pg]);
     ui.innerHTML = `<div class="caps">
