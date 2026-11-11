@@ -103,3 +103,15 @@ button:disabled { opacity: .45; cursor: not-allowed; } fieldset:disabled { opaci
   footer { margin-left: 0; padding: 17px 15px 22px; flex-wrap: wrap; font-size: 10px; } footer a { flex-basis: 100%; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+
+.material-tools:not([hidden]) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 12px 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+.material-tools select { padding: 6px 10px; border: 1px solid var(--line); border-radius: 5px; color: var(--ink); background: var(--surface); }

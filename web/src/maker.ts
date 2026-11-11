@@ -1,6 +1,7 @@
 import { cachedSeal, loadCatalog, mergeSeals, normalizeLabel, validSeal, type CacheEntry } from "./maker-cache";
 import { clearPending, collect, collection, loadPending, savePending, type Pending } from "./maker-store";
 import { offlineReady, prepareOffline } from "./maker-offline";
+import { displayName, elephantMaterials, materialName, materialVariants } from "./seal-materials";
 import { SealStage } from "./seal-stage";
 import type { SealDef } from "./seal-geo";
 
@@ -99,7 +100,30 @@ photo.addEventListener("change", () => {
   if (file) { selectedPhoto = file; photo.required = false; photoURL = URL.createObjectURL(file); photoPreview.src = photoURL; clearError(); }
 });
 
+const materialChoice = $<HTMLSelectElement>("material-choice");
+$("show-bell-example").addEventListener("click", () => {
+  const bell = defs.find(def => def.name === "yongzhong");
+  if (!bell) return;
+  clearError();
+  void showSeal({ ...bell, name: "yongzhong_mv", glb: "objects/yongzhong_mv/model.glb", yaw: 0 });
+});
+for (const material of elephantMaterials) materialChoice.add(new Option(material.label, material.name));
+materialChoice.addEventListener("change", () => {
+  const original = defs.find(def => def.name === "elephant");
+  if (!original) return;
+  const choice = [original, ...materialVariants(original)].find(def => def.name === materialChoice.value);
+  if (choice) { clearError(); void showSeal(choice); }
+});
+
+function refreshMaterialChoice() {
+  $("material-tools").hidden = offline() || !current || (current.name !== "elephant" && !materialName(current));
+  materialChoice.value = current?.name ?? "elephant";
+  materialChoice.disabled = moving;
+}
+
 function refreshForm() {
+  $("photo-example").hidden = offline();
+  refreshMaterialChoice();
   fields.disabled = Boolean(pending);
   $<HTMLButtonElement>("mode-text").disabled = Boolean(pending);
   $<HTMLButtonElement>("mode-photo").disabled = Boolean(pending);
@@ -111,6 +135,7 @@ function refreshForm() {
 }
 
 function refreshActions() {
+  refreshMaterialChoice();
   touch.disabled = !ready || moving; flip.disabled = !ready || moving; rub.disabled = !ready || moving || !flip.classList.contains("is-current");
   for (const id of ["turn-left", "turn-right", "zoom-in", "zoom-out"]) $<HTMLButtonElement>(id).disabled = !ready || moving;
   const saved = current && collection().some((s) => s.name === current!.name);
@@ -128,7 +153,7 @@ async function showSeal(def: SealDef, source: "cache" | "online" = "cache", land
   badge.textContent = source === "cache" ? "已备好的印" : "刚铸好的印";
   badge.dataset.source = source;
   $("result-kind").textContent = source === "cache" ? "用已备好的印，先摸摸它的世界" : "新的世界，已经来到你的桌上";
-  $("result-label").textContent = def.label;
+  $("result-label").textContent = displayName(def);
   $("result-story").textContent = `${def.why} · ${def.real}`;
   $("result-braille").textContent = def.cells;
   $("result-braille").setAttribute("aria-label", `${def.label}的盲文`);
@@ -138,7 +163,7 @@ async function showSeal(def: SealDef, source: "cache" | "online" = "cache", land
     if (shown === false) return;
     if (ticket !== selection) return;
     ready = true; flow(0); caption.textContent = "先认一认形状，再翻过来读它的名字。";
-    refreshActions(); say(`${def.label}的印已经放好。${source === "cache" ? "这是已准备好的印章。" : ""}可以翻面读名字，再拓出一页书。`);
+    refreshActions(); say(`${displayName(def)}的印已经放好。${source === "cache" ? "这是已准备好的印章。" : ""}可以翻面读名字，再拓出一页书。`);
   } catch {
     if (ticket !== selection) return;
     error("这枚印的三维模型还没加载好。请联网重试，或选一枚已保存的离线印。", () => { void showSeal(def, source); }, "重新加载这枚印");
@@ -167,9 +192,9 @@ function renderCollection() {
   const grid = $("collection-grid"); grid.replaceChildren();
   for (const seal of all) {
     const tile = document.createElement("button"); tile.type = "button"; tile.className = "collection-tile";
-    tile.setAttribute("aria-label", `查看印集中的${seal.label}`);
+    tile.setAttribute("aria-label", `查看印集中的${displayName(seal)}`);
     const cells = document.createElement("span"); cells.className = "tile-dots"; cells.textContent = seal.cells; cells.setAttribute("aria-hidden", "true");
-    const title = document.createElement("strong"); title.textContent = seal.label;
+    const title = document.createElement("strong"); title.textContent = displayName(seal);
     const story = document.createElement("small"); story.textContent = seal.why + " · 翻面有答案";
     tile.append(cells, title, story);
     tile.addEventListener("click", () => { clearError(); void showSeal(seal); $("seal-stage").scrollIntoView({ block: "center", behavior: "smooth" }); });

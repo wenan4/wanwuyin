@@ -46,6 +46,11 @@
               <label class="photo-drop" for="photo"><span aria-hidden="true">＋</span><strong>选一张照片，或拍一张</strong><small>清楚的单个物件 · PNG / JPEG / WebP · 8 MB 以内</small><img id="photo-preview" alt="已选照片预览" hidden /></label>
               <input id="photo" type="file" accept="image/png,image/jpeg,image/webp" aria-describedby="photo-help" />
               <p id="photo-help" class="field-help">玩具、插图、博物馆里的珍藏，都可以。</p>
+              <details id="photo-example" class="detail-fields">
+                <summary>看甬钟的四视图重建示例</summary>
+                <img src="examples/yongzhong-views.jpg" loading="lazy" width="1440" height="360" style="max-width:100%;height:auto" alt="从同一张甬钟照片补出的四个视角，可对照钟口、钟柄和侧壁" />
+                <button type="button" id="show-bell-example" class="text-button">摸摸按这四个视角重建的甬钟</button>
+              </details>
             </div>
             <div class="name-field"><label class="field-label" for="seal-name">印上的名字</label><input id="seal-name" maxlength="40" placeholder="例如：长颈鹿" required /></div>
             <details class="detail-fields"><summary>再写一点它的故事 <span>可选</span></summary><label for="why">为什么摸不到它？</label><select id="why"><option>暂时摸不到</option><option>太大</option><option>太远</option><option>太深</option><option>太危险</option><option>已经灭绝</option><option>隔着展柜</option><option>已消失</option><option>太珍贵</option><option>太小</option><option>太高</option><option>太烫</option></select><label for="real-size">它在真实世界有多大？</label><input id="real-size" maxlength="100" placeholder="例如：高约五米（不知道也没关系）" /></details>
@@ -64,6 +69,7 @@
         <div id="seal-stage" class="seal-stage" aria-label="印章三维展示"><div class="stage-watermark" aria-hidden="true">印</div></div>
         <div class="stage-caption"><span class="caption-line" aria-hidden="true"></span><p id="stage-caption">先用手认一认，猜猜它是什么。</p><span class="caption-line" aria-hidden="true"></span></div>
         <div class="view-tools" role="group" aria-label="三维视角控制"><button id="turn-left" type="button" aria-label="向左旋转印章">↶</button><button id="turn-right" type="button" aria-label="向右旋转印章">↷</button><span aria-hidden="true"></span><button id="zoom-in" type="button" aria-label="放大印章">＋</button><button id="zoom-out" type="button" aria-label="缩小印章">−</button><small>拖动旋转 · 也可用左侧按钮</small></div>
+        <div id="material-tools" class="material-tools" hidden><label for="material-choice">换印材</label><select id="material-choice"><option value="elephant">原貌</option></select><a class="text-link" href="seal.html?view=set&amp;materials=1">三种印材合影 ↗</a></div>
         <div class="stamp-actions" role="group" aria-label="认识这枚印"><button id="touch" class="step-button is-current" type="button"><span>01</span>认形状</button><button id="flip" class="step-button" type="button"><span>02</span>翻面读名字</button><button id="rub" class="step-button" type="button" disabled><span>03</span>拓出一页书</button></div>
         <div id="seal-result" class="seal-result"><div><span class="result-eyebrow">这枚印的故事</span><h2 id="result-label">大象</h2><p id="result-story">太大 · 身长约六米</p><span id="result-braille" class="braille-label" aria-label="大象的盲文"></span></div><button id="collect" class="button outline" type="button">＋ 放进我的印集</button></div>
       </div>

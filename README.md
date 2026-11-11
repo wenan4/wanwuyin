@@ -4,6 +4,8 @@
 
 ![整套合影：8 枚印和各自的铜箔拓片](docs/media/seal_set.png)
 
+[提交材料：Lux3D 能力、作品入口和实际积分](docs/Lux3D能力对照.md)
+
 - **任务和进度**：[Linear 项目「2026.10-11 aholo 3d hackathon」](https://linear.app/youonlyattendonce/project/202610-11-aholo-3d-hackathon-8281b99b4b05)，交接说明写在项目描述里
 - **概念片**（38.9 秒，无声）：[docs/media/wanwuyin_concept.mp4](docs/media/wanwuyin_concept.mp4)；每枚印的三联图也在 `docs/media/`
 - **生成物快照**（`pipeline/out`：渲染、视频、Lux3D 原始输出、触摸件 STL、输入图）：Release [`snapshot-2026-11-11`](https://github.com/zicheng-yu/wanwuyin/releases/tag/snapshot-2026-11-11)
@@ -31,6 +33,7 @@ npx vite --port 5199
 | http://localhost:5199/maker.html | 造印工作台：文字 / 照片、翻面拓印、收藏、离线体验 |
 | http://localhost:5199/seal.html?seal=elephant | 三联图：印钮 / 印面 / 拓出来的一页（可拖动视角） |
 | http://localhost:5199/seal.html?view=set | 整套合影 |
+| http://localhost:5199/seal.html?view=set&materials=1 | 同一枚大象印的青铜、玄武岩、木雕三材合影 |
 | http://localhost:5199/seal.html?view=anim&seal=elephant | 12 秒动画：摸 → 翻面 → 拓印 → 成页 |
 
 `seal=` 可换成 `web/public/seals.json` 里的名字：elephant、blue_whale、trex、shark、ant、saturn、volcano、yongzhong。

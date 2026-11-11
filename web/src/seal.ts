@@ -10,6 +10,7 @@ import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 import { seal, page, rest, loadSeal, type SealDef, type Loaded } from "./seal-geo";
 import { createSealAnimation } from "./seal-animation";
 import { loadCatalog, mergeSeals } from "./maker-cache";
+import { displayName, materialName, materialVariants } from "./seal-materials";
 import { collection } from "./maker-store";
 
 const q = new URLSearchParams(location.search);
@@ -87,7 +88,10 @@ let duration = 0;
 
 const allDefs = mergeSeals(await loadCatalog(), collection());
 const saved = collection();
-const defs: SealDef[] = q.has("collection") && saved.length ? saved : allDefs;
+const materialsView = view === "set" && q.has("materials");
+const original = allDefs.find(def => def.name === "elephant");
+const defs: SealDef[] = materialsView ? (original ? materialVariants(original) : [])
+  : q.has("collection") && saved.length ? saved : allDefs;
 
 if (view === "set") {
   // ---- the collection: every seal with its rubbing in front of it
@@ -95,20 +99,35 @@ if (view === "set") {
   const all = got.flatMap((r) => (r.status === "fulfilled" ? [r.value] : []));
   // Tall knobs hide what is behind them, so the taller half stands in the back row.
   const built = all.map((s) => ({ s, sl: seal(s) })).sort((a, b) => b.sl.userData.height - a.sl.userData.height);
-  const cols = Math.ceil(built.length / 2), dx = 12, dz = 23;
+  const cols = materialsView ? 3 : Math.ceil(built.length / 2), dx = materialsView ? 9 : 12, dz = 23;
   const span = Math.max(1, cols / 4);
   shadowArea(44 * span, 4096);
   target.set(0, 1.5, 2.5);
-  camera.position.set(0, 1.5 + 64 * span * Math.sin(0.56), 2.5 + 64 * span * Math.cos(0.56));
+  const distance = materialsView ? Math.max(38, 52 / camera.aspect) : 64 * span;
+  camera.position.set(0, 1.5 + distance * Math.sin(0.56), 2.5 + distance * Math.cos(0.56));
   camera.lookAt(target);
   camera.updateMatrixWorld();
   ui.innerHTML = `<div class="head"><b>万物印</b><span>摸不到的世界，一枚一枚握在手里</span></div>`;
+  if (materialsView) {
+    ui.querySelector(".head b")!.textContent = all.length === 3 ? "同一枚大象印，三种印材" : "印材合影加载不完整，请联网刷新";
+    ui.querySelector(".head span")!.remove();
+  }
   const back = document.createElement("a"); back.href = "maker.html"; back.textContent = "← 回到造印机";
   Object.assign(back.style, { position: "fixed", top: "16px", left: "20px", color: "#315247", pointerEvents: "auto", fontSize: "13px" });
-  if (!capture) ui.append(back);
+  if (!capture) {
+    ui.append(back);
+    if (!materialsView) {
+      const materialsLink = back.cloneNode() as HTMLAnchorElement;
+      materialsLink.href = "seal.html?view=set&materials=1";
+      materialsLink.textContent = "大象三材合影 →";
+      materialsLink.style.left = "auto";
+      materialsLink.style.right = "20px";
+      ui.append(materialsLink);
+    }
+  }
   built.forEach(({ s, sl }, i) => {
     const row = Math.floor(i / cols), n = row === 0 ? cols : built.length - cols;
-    const x = ((i % cols) - (n - 1) / 2) * dx, z = (row - 0.5) * dz;
+    const x = ((i % cols) - (n - 1) / 2) * dx, z = materialsView ? 0 : (row - 0.5) * dz;
     sl.position.set(x, 0, z - 3.4);
     sl.rotation.y = 0.4;
     const pg = page(s);
@@ -121,7 +140,8 @@ if (view === "set") {
     tag.style.left = `${((at.x + 1) / 2) * 100}%`;
     tag.style.top = `${((1 - at.y) / 2) * 100}%`;
     const name = document.createElement("b"), story = document.createElement("span");
-    name.textContent = s.def.label; story.textContent = `${s.def.why} · ${s.def.real}`;
+    name.textContent = materialsView ? materialName(s.def)! : displayName(s.def);
+    story.textContent = materialsView ? s.def.label : `${s.def.why} · ${s.def.real}`;
     tag.append(name, story);
     ui.appendChild(tag);
   });
