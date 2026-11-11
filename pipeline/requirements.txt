@@ -1,0 +1,13 @@
+# Python 3.12，版本与 2026-11-11 能跑通的环境一致。
+#   uv venv .venv --python 3.12 && uv pip install --python .venv/bin/python -r requirements.txt
+# 另需 liblouis 的 lou_translate（盲文，带 zhcn-cbs.ctb 表）：brew install liblouis / apt install liblouis-bin
+# 可选 scikit-sparse（有限元提速，只有万物有声用得到），装法见 README
+numpy==2.5.4
+scipy==1.18.1
+trimesh==5.2.0
+scikit-image==0.26.0
+matplotlib==3.11.2
+pillow==13.0.0
+opencv-python-headless==5.0.0.93
+rtree==1.4.1
+fast-simplification==0.2.0

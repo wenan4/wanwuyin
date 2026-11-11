@@ -1,0 +1,93 @@
+{
+ "porcelain": {
+  "name": "瓷",
+  "rho": 2400,
+  "E": 70000000000.0,
+  "alpha": 6.0,
+  "beta": 1e-07,
+  "color": "#f3efe6",
+  "metalness": 0.0,
+  "roughness": 0.12
+ },
+ "glass": {
+  "name": "玻璃",
+  "rho": 2500,
+  "E": 62000000000.0,
+  "alpha": 1.0,
+  "beta": 1e-07,
+  "color": "#d5ecf2",
+  "metalness": 0.0,
+  "roughness": 0.04,
+  "opacity": 0.55
+ },
+ "bronze": {
+  "name": "青铜",
+  "rho": 8800,
+  "E": 110000000000.0,
+  "alpha": 3.0,
+  "beta": 4e-08,
+  "color": "#a8814a",
+  "metalness": 1.0,
+  "roughness": 0.35
+ },
+ "steel": {
+  "name": "钢",
+  "rho": 7850,
+  "E": 200000000000.0,
+  "alpha": 5.0,
+  "beta": 3e-08,
+  "color": "#c9cdd2",
+  "metalness": 1.0,
+  "roughness": 0.22
+ },
+ "aluminum": {
+  "name": "铝",
+  "rho": 2700,
+  "E": 70000000000.0,
+  "alpha": 5.0,
+  "beta": 5e-08,
+  "color": "#dfe2e6",
+  "metalness": 1.0,
+  "roughness": 0.3
+ },
+ "stone": {
+  "name": "石",
+  "rho": 2700,
+  "E": 50000000000.0,
+  "alpha": 20.0,
+  "beta": 3e-07,
+  "color": "#8e8a84",
+  "metalness": 0.0,
+  "roughness": 0.85
+ },
+ "wood": {
+  "name": "木",
+  "rho": 750,
+  "E": 11000000000.0,
+  "alpha": 60.0,
+  "beta": 2e-06,
+  "color": "#a26f3c",
+  "metalness": 0.0,
+  "roughness": 0.7
+ },
+ "plastic": {
+  "name": "塑料",
+  "rho": 1070,
+  "E": 1400000000.0,
+  "alpha": 30.0,
+  "beta": 1e-06,
+  "color": "#4b8fd6",
+  "metalness": 0.0,
+  "roughness": 0.4
+ },
+ "pla": {
+  "name": "打印 PLA",
+  "rho": 1240,
+  "E": 3000000000.0,
+  "alpha": 10.0,
+  "beta": 4e-06,
+  "color": "#e8e2d4",
+  "metalness": 0.0,
+  "roughness": 0.6
+ }
+}

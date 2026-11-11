@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>万物有声 · 原型</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <aside id="panel" aria-label="控制面板">
+        <h1>万物有声</h1>
+        <p class="sub">点物体任意位置敲击 · 拖动旋转 · 空格键敲默认位置 · <a href="listen.html">听触模式</a></p>
+        <label>物体 <select id="object"></select></label>
+        <label id="variantRow" hidden>外观（Lux3D 材质重绘） <select id="variant"></select></label>
+        <label>材质 <select id="material"></select></label>
+        <div id="strikePoints" class="row"></div>
+        <label>尺寸 <span id="sizeLabel"></span><input id="size" type="range" min="0" max="1000" step="1" /></label>
+        <label>调到音高 <select id="note"><option value="">—</option></select></label>
+        <fieldset>
+          <legend>编钟架：同一件物体，按音高缩放</legend>
+          <select id="melody" aria-label="曲子"></select>
+          <div class="row">
+            <button id="rackToggle" class="secondary">排成编钟架</button>
+            <button id="play" disabled>演奏</button>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>克拉尼沙纹：持续驱动一阶模态</legend>
+          <select id="sandMode" aria-label="驱动的模态"></select>
+          <button id="sandToggle" class="secondary">撒沙</button>
+          <div id="sandStatus" class="muted small" aria-live="polite"></div>
+        </fieldset>
+        <label>锤子 <span id="hammerLabel"></span><input id="hammer" type="range" min="0" max="100" value="55" /></label>
+        <label class="check"><input id="heat" type="checkbox" checked /> 振动热力图</label>
+        <label class="check"><input id="reverb" type="checkbox" checked /> 混响</label>
+        <section id="info" aria-live="polite"></section>
+      </aside>
+      <main id="stage"></main>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

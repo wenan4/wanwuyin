@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>万物有声 · 听触</title>
+    <link rel="stylesheet" href="/src/listen.css" />
+  </head>
+  <body>
+    <main id="listen">
+      <h1 id="title">听触</h1>
+      <p id="hint">按 1 到 9 敲击，按 空格 按真实大小敲，按 I 听介绍。</p>
+      <label class="object">物体 <select id="object"></select></label>
+      <div id="buttons" role="group" aria-label="敲击"></div>
+      <p id="status" aria-live="assertive"></p>
+    </main>
+    <script type="module" src="/src/listen.ts"></script>
+  </body>
+</html>

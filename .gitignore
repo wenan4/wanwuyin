@@ -1,0 +1,8 @@
+.env
+.venv/
+__pycache__/
+out/
+node_modules/
+dist/
+pipeline/tools/ocr
+.DS_Store
