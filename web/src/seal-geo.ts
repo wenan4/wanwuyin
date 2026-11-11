@@ -61,8 +61,35 @@ export function braille(cells: string, mat: THREE.Material) {
 export function face(s: Loaded, mat: THREE.Material) {
   const g = new THREE.Group();
   // Project these shapes from above so fins, ring openings and the crater survive flattening.
-  const pitch: Record<string, number> = { ant: 1.42, blue_whale: 0.96, saturn: 1.12, volcano: 0.72, yongzhong: 0.14 };
+  const pitch: Record<string, number> = { ant: 1.42, blue_whale: 1.27, saturn: 0.18, volcano: 0.65, yongzhong: 0.14 };
   const relief = fitted(s.model, s.W * 0.83, s.W * 0.52, Infinity, mat, s.yaw, pitch[s.def.name] ?? 0);
+  // Recesses keep a darker patina. Measure depth before flattening the mesh.
+  const reliefMat = mat.clone() as THREE.MeshStandardMaterial;
+  reliefMat.vertexColors = true;
+  reliefMat.clippingPlanes = mat.clippingPlanes;
+  relief.updateMatrixWorld(true);
+  const point = new THREE.Vector3();
+  const normal = new THREE.Vector3();
+  const grazing = new THREE.Vector3(-0.8, 0.55, 0.24).normalize();
+  relief.traverse((object) => {
+    if (!(object instanceof THREE.Mesh)) return;
+    const geometry = object.geometry.clone();
+    const vertices = geometry.getAttribute("position");
+    if (!geometry.hasAttribute("normal")) geometry.computeVertexNormals();
+    const normals = geometry.getAttribute("normal");
+    const normalMatrix = new THREE.Matrix3().getNormalMatrix(object.matrixWorld);
+    const colors = new Float32Array(vertices.count * 3);
+    for (let index = 0; index < vertices.count; index++) {
+      point.fromBufferAttribute(vertices, index).applyMatrix4(object.matrixWorld);
+      const depth = THREE.MathUtils.clamp(point.z / relief.userData.size.z + 0.5, 0, 1);
+      normal.fromBufferAttribute(normals, index).applyNormalMatrix(normalMatrix);
+      const patina = (0.2 + 0.8 * depth ** 2) * (0.56 + 0.44 * Math.max(0, normal.dot(grazing)));
+      colors.fill(patina, index * 3, index * 3 + 3);
+    }
+    geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+    object.geometry = geometry;
+    object.material = reliefMat;
+  });
   relief.scale.z = RELIEF / relief.userData.size.z;
   relief.position.set(0, s.W * 0.15, RELIEF / 2);
   const text = braille(s.def.cells, mat);

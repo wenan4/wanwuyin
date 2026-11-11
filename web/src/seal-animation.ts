@@ -31,7 +31,7 @@ const lines: [number, string][] = [
 ];
 const yFace = Ht + 1.2, yFoil = yFace + RELIEF + 0.03;
 const A = [new THREE.Vector3(0, 7.5, 27), new THREE.Vector3(0, 3.2, 0)];
-const B = [new THREE.Vector3(0, yFace + 17, 15), new THREE.Vector3(0, yFace, 0)];
+const B = [new THREE.Vector3(0, yFace + 18.5, 16.5), new THREE.Vector3(0, yFace - 1.5, 0)];
 const C = [new THREE.Vector3(1.6, 10.5, 30), new THREE.Vector3(1.6, 2.2, 0)];
 const pose = (t: number) => {
   const back = seg(t, T.part[0], T.part[1]);
@@ -57,6 +57,8 @@ const pose = (t: number) => {
   camera.position.lerpVectors(A[0], B[0], kb).sub(B[1]).multiplyScalar(mix(1, push, kb)).add(B[1]).lerp(C[0], kc);
   camera.position.x += Math.sin(t * 0.35) * 0.5;
   target.lerpVectors(A[1], B[1], kb).lerp(C[1], kc);
+  // Leave room for both the lifting sheet and the inverted knob during separation.
+  camera.position.sub(target).multiplyScalar(1 + 0.18 * Math.sin(Math.PI * back)).add(target);
   // &plain: one fixed caption (name and why it cannot be touched), for montage cuts
   onCaption?.(plain ? `${s.def.label} ｜ ${s.def.why}，${s.def.real}` : [...lines].reverse().find(([at]) => t >= at)![1]);
 };
