@@ -6,6 +6,7 @@ is read from pipeline/.env (LUX3D_CN_API_KEY) and is never logged.
 import hashlib
 import json
 import os
+import tempfile
 import time
 import urllib.parse
 import urllib.request
@@ -31,13 +32,20 @@ class Lux3DError(RuntimeError):
 
 def _api_key():
     key = os.environ.get("LUX3D_CN_API_KEY")
-    env = Path(__file__).resolve().parents[1] / ".env"
-    if not key and env.exists():
-        for line in env.read_text().splitlines():
-            if line.startswith("LUX3D_CN_API_KEY="):
-                key = line.split("=", 1)[1].strip()
+    root = Path(__file__).resolve().parents[1]
+    for env in (root / ".env", root.parent / ".env"):
+        if key:
+            break
+        if env.exists():
+            for line in env.read_text(encoding="utf-8-sig").splitlines():
+                name, sep, value = line.strip().partition("=")
+                if sep and name.strip() == "LUX3D_CN_API_KEY":
+                    key = value.strip()
+                    if len(key) >= 2 and key[0] == key[-1] and key[0] in "\"'":
+                        key = key[1:-1]
+                    break
     if not key:
-        raise Lux3DError("LUX3D_CN_API_KEY missing (set it in pipeline/.env)")
+        raise Lux3DError("LUX3D_CN_API_KEY missing (set it in pipeline/.env or the repository .env)")
     return key
 
 
@@ -167,13 +175,12 @@ def upload(path, poll=120, interval=1.0):
         form = urllib.parse.urlencode({"md5": md5, "blocks": total, "size": len(data), "name": path.name}).encode()
         init = _ous("POST", f"{domain}/ous/api/v2/block/upload/init", token, form, "application/x-www-form-urlencoded")
         if not init.get("deduplicated"):
-            for b in _lack_blocks(init.get("lackBlocks"), total):
-                part = Path(f"/tmp/{path.name}.part-{b}")  # multipart needs a filename; content is the slice
-                part.write_bytes(data[(b - 1) * block: b * block])
-                try:
+            with tempfile.TemporaryDirectory(prefix="wwys-upload-") as scratch:
+                for b in _lack_blocks(init.get("lackBlocks"), total):
+                    part = Path(scratch) / f"part-{b}"
+                    part.write_bytes(data[(b - 1) * block: b * block])
                     body, ctype = _multipart({"block": b}, "file", part)
                     _ous("POST", f"{domain}/ous/api/v2/block/upload/part", token, body, ctype)
-                finally:
                     part.unlink(missing_ok=True)
     for _ in range(poll):
         st = _ous("GET", f"{domain}/ous/api/v2/upload/status", token)
@@ -185,10 +192,14 @@ def upload(path, poll=120, interval=1.0):
     raise Lux3DError("upload status polling timed out")
 
 
-def download(url, dest):
+def download(url, dest, max_bytes=None):
     dest = Path(dest)
     dest.parent.mkdir(parents=True, exist_ok=True)
     with urllib.request.urlopen(url, timeout=300) as r, open(dest, "wb") as f:
+        size = 0
         while chunk := r.read(1 << 20):
+            size += len(chunk)
+            if max_bytes is not None and size > max_bytes:
+                raise Lux3DError("Downloaded asset exceeds the size limit")
             f.write(chunk)
     return dest

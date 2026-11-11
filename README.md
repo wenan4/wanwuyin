@@ -83,6 +83,12 @@ tar -xzf /tmp/wanwuyin-snap/pipeline-out-rest.tar.gz -C pipeline   # 其余：�
 
 ## 万物印
 
+### 造印机后端
+
+`cd pipeline` 后运行 `.venv/bin/python scripts/serve_seals.py --port 8000`（Windows 用 `.venv\Scripts\python.exe`）。提供 `POST /api/seals` 和 `GET /api/seals/<id>`，支持文字/照片生成、最多 5 个任务、持久队列与预算、重启恢复；Vite 已代理 `/api`。新印写入独立的 `generated.json`。
+
+接口、前端对接、单命令生成、Windows 盲文工具和恢复说明见 [docs/造印机后端.md](docs/造印机后端.md)。自动测试：`python -m unittest discover -s pipeline/tests -v`。造印机页面由前端任务 YOU-198 接入。
+
 ### 加一枚印、换一个模型
 
 ```bash

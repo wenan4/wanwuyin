@@ -32,7 +32,7 @@ def to_braille(text, table=BRAILLE_TABLE):
     if not shutil.which("lou_translate"):
         raise RuntimeError("lou_translate not found (brew install liblouis)")
     out = subprocess.run(["lou_translate", "--forward", f"unicode.dis,{table}"],
-                         input=text, capture_output=True, text=True, check=True)
+                         input=text, capture_output=True, text=True, encoding="utf-8", check=True, timeout=30)
     return out.stdout.strip("\n")
 
 

@@ -6,3 +6,5 @@ node_modules/
 dist/
 pipeline/tools/ocr
 .DS_Store
+web/public/generated.json
+web/public/objects/seal_*/
